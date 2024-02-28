@@ -1,1 +1,109 @@
-https://github.com/wilferro/RECUPERACION.git
+#include <iostream>
+#include <vector>
+#include <iomanip>
+
+using namespace std;
+
+// Definición de las estructuras
+struct Cliente {
+  int id_cliente;
+  string nombre;
+  char genero;
+};
+
+struct Libro {
+  int id_libro;
+  string titulo;
+  int tipo;
+  double costo;
+};
+
+struct Venta {
+  int id_venta;
+  int id_cliente;
+  int id_libro;
+  string fecha_venta;
+  int cantidad;
+  double importe_bruto;
+  double descuento;
+  double importe_neto;
+};
+
+// Funciones para la gestión de datos
+vector<Cliente> leerClientes();
+vector<Libro> leerLibros();
+void registrarVenta(vector<Cliente>& clientes, vector<Libro>& libros, Venta& venta);
+void calcularDescuento(Libro libro, int cantidad, double& descuento);
+double calcularImporteBruto(Libro libro, int cantidad);
+
+// Función principal
+int main() {
+  // Lectura de datos
+  vector<Cliente> clientes = leerClientes();
+  vector<Libro> libros = leerLibros();
+
+  // Registro de una venta
+  Venta venta;
+
+  // Ingreso de datos de la venta
+  cout << "Ingrese el ID del cliente: ";
+  cin >> venta.id_cliente;
+
+  cout << "Ingrese el ID del libro: ";
+  cin >> venta.id_libro;
+
+  cout << "Ingrese la fecha de venta (aaaa-mm-dd): ";
+  cin >> venta.fecha_venta;
+
+  cout << "Ingrese la cantidad de libros: ";
+  cin >> venta.cantidad;
+
+  // Obtención del libro y cliente
+  Libro libro = libros[venta.id_libro - 1];
+  Cliente cliente = clientes[venta.id_cliente - 1];
+
+  // Cálculo del importe bruto
+  venta.importe_bruto = calcularImporteBruto(libro, venta.cantidad);
+
+  // Cálculo del descuento
+  calcularDescuento(libro, venta.cantidad, venta.descuento);
+
+  // Cálculo del importe neto
+  venta.importe_neto = venta.importe_bruto - venta.descuento;
+
+  // Registro de la venta
+  registrarVenta(clientes, libros, venta);
+
+  // Impresión del ticket de venta
+  cout << endl << "**Ticket de Venta**" << endl;
+  cout << "Cliente: " << cliente.nombre << endl;
+  cout << "Libro: " << libro.titulo << endl;
+  cout << "Cantidad: " << venta.cantidad << endl;
+  cout << "Importe Bruto: S/. " << fixed << setprecision(2) << venta.importe_bruto << endl;
+  cout << "Descuento: S/. " << fixed << setprecision(2) << venta.descuento << endl;
+  cout << "Importe Neto: S/. " << fixed << setprecision(2) << venta.importe_neto << endl;
+
+  return 0;
+}
+
+// Implementación de las funciones
+
+// Leer clientes de un archivo
+vector<Cliente> leerClientes() {
+  // ...
+}
+
+// Leer libros de un archivo
+vector<Libro> leerLibros() {
+  // ...
+}
+
+// Registrar una venta en la base de datos
+void registrarVenta(vector<Cliente>& clientes, vector<Libro>& libros, Venta& venta) {
+  // ...
+}
+
+// Calcular el descuento en función del tipo de libro y la cantidad
+void calcularDescuento(Libro libro, int cantidad, double& descuento) {
+  // ...
+}
