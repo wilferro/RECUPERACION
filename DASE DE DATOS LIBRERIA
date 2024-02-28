@@ -1,0 +1,44 @@
+CREATE DATABASE LIBRERIA
+USE LIBRERIA
+CREATE TABLE Clientes (
+  ID_Cliente INT PRIMARY KEY AUTO_INCREMENT,
+  Nombre VARCHAR(255) NOT NULL,
+  Género CHAR(1) NOT NULL
+);
+CREATE TABLE Libros (
+  ID_Libro INT PRIMARY KEY AUTO_INCREMENT,
+  Titulo VARCHAR(255) NOT NULL,
+  Tipo TINYINT NOT NULL,
+  Costo DECIMAL(10,2) NOT NULL
+);
+CREATE TABLE Ventas (
+  ID_Venta INT PRIMARY KEY AUTO_INCREMENT,
+  ID_Cliente INT NOT NULL,
+  ID_Libro INT NOT NULL,
+  Fecha_Venta DATE NOT NULL,
+  Cantidad INT NOT NULL,
+  FOREIGN KEY (ID_Cliente) REFERENCES Clientes(ID_Cliente),
+  FOREIGN KEY (ID_Libro) REFERENCES Libros(ID_Libro)
+);
+INSERT INTO Clientes (Nombre, Genero) VALUES ('Juan Pérez', 'M');
+INSERT INTO Clientes (Nombre, Genero) VALUES ('María López', 'F');
+INSERT INTO Clientes (Nombre, Genero) VALUES ('Pedro García', 'O');
+
+INSERT INTO Libros (Titulo, Tipo, Costo) VALUES ('El Principito', 1, 90.00);
+INSERT INTO Libros (Titulo, Tipo, Costo) VALUES ('Cien años de soledad', 2, 100.00);
+INSERT INTO Libros (Titulo, Tipo, Costo) VALUES ('Cuentos de la selva', 3, 80.00);
+INSERT INTO Libros (Titulo, Tipo, Costo) VALUES ('Física para Dummies', 4, 150.00);
+
+INSERT INTO Ventas (ID_Cliente, ID_Libro, Fecha_Venta, Cantidad) VALUES (1, 1, '2024-02-28', 1);
+INSERT INTO Ventas (ID_Cliente, ID_Libro, Fecha_Venta, Cantidad) VALUES (2, 2, '2024-02-28', 2);
+INSERT INTO Ventas (ID_Cliente, ID_Libro, Fecha_Venta, Cantidad) VALUES (3, 3, '2024-02-28', 1);
+
+SELECT SUM(Cantidad) FROM Ventas;
+SELECT c.Nombre, SUM(v.Cantidad) AS TotalVentas
+FROM Ventas v
+INNER JOIN Clientes c ON v.ID_Cliente = c.ID_Cliente
+GROUP BY c.ID_Cliente;
+SELECT l.Titulo, SUM(v.Cantidad) AS TotalVentas
+FROM Ventas v
+INNER JOIN Libros l ON v.ID_Libro = l.ID_Libro
+GROUP BY l.ID_Libro;
